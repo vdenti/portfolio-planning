@@ -1,0 +1,27 @@
+---
+title: "data-cleaning"
+format: html
+---
+
+Data cleaning for portfolio project.
+
+```{r}
+#| label: setup
+#| echo: false
+#loading all required packages
+library(tidyverse)
+library(readxl)
+```
+
+```{r}
+#| label: read-data
+#reading in all data sets that will be used
+
+waste_summary <- read_xlsx("data-raw/CountywideSummary.xlsx")
+
+population_data_1 <- read_csv("data-raw/QuickFacts Mar-22-2026.csv")
+
+population_data_2 <- read_csv("data-raw/QuickFacts Mar-22-2026 (1).csv")
+
+```
+
