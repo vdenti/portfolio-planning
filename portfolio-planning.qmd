@@ -1,7 +1,8 @@
 ---
-title: "portfolio-part-1"
+title: "Portfolio-Planning"
 format: html
 ---
+#Portfolio part 1
 
 ## Describing data
 
@@ -33,6 +34,9 @@ format: html
 
 4. I will need to create a new variable of waste generation per person. I will create this data set by combining population statistics from the second data set and waste generation statistics from the first data set. This will first require joining the two data sets.
 
-5. I will need to join the two parts of the second data set together. They can be joined by the Fact row which they share. I will also need to join the waste generation data set and the population data set by city. To do this the both data sets will need to be pivoted to have a variable for city.
+5. I will need to join the two parts of the second data set together. They can be joined by the `Fact` row which they share. I will also need to join the waste generation data set and the population data set by city. To do this the both data sets will need to be pivoted to have a variable for city.
 
 6. The second data set will need to be pivoted to make city a variable in order for it to be joined with the other data set. This would make the population facts also be variables. The first data set needs to be pivoted so that the Report Quarter column becomes two different columns, one for city and one for quarter.
+
+# Portfolio part 2
+
