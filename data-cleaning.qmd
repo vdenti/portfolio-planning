@@ -30,7 +30,25 @@ population_data_2 <- read_csv("data-raw/QuickFacts Mar-22-2026 (1).csv")
 
 population_data <- population_data_1 |>
   drop_na("Fact") |>
-  left_join(population_data_2, "Fact")
+  left_join(population_data_2, "Fact") |>
+  select(-contains("Note")) |>
+  #filter("Fact" %in% c("Population, Census, April 1, 2010", "Population, Census, April 1, 2020"))
+  #pivot_longer(cols = contains("city"), names_to = "city", values_to = "value",)
 #add filtering to filter for census rows
 ```
+
+```{r}
+#| label: solving-nas-waste
+#filling in the empty rows with the date because the date was only placed in one row also removing columns that will not be used
+
+waste_summary_1 <- waste_summary |>
+  select(1:3) |>
+  fill(1)
+```
+
+```{r}
+#| label: waste-column-2
+#pulling elements out of column 2 to make it into a more usable format
+```
+
 
