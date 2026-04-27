@@ -1,0 +1,24 @@
+---
+title: "Visualizations"
+format: html
+---
+
+## Setup
+
+```{r}
+#| label: setup
+#| echo: false
+#loading all required packages
+library(tidyverse)
+```
+
+```{r}
+#| label: loading-data
+#| echo: false
+#reading in all of the cleaned data
+waste_summary_q3 <- read_csv("data-clean/waste-summary-q3")
+```
+
+## Research Question 3
+
+
