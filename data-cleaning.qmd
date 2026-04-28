@@ -32,7 +32,7 @@ population_data_1 <- population_data_a |>
   drop_na("Fact") |>
   left_join(population_data_b, "Fact") |>
   select(-contains("Note")) |>
-  filter(Fact %in% c("Population, Census, April 1, 2010", "Population, Census, April 1, 2020"))
+  filter(Fact %in% c("Population, Census, April 1, 2010", "Population, Census, April 1, 2020", "Population per square mile, 2020", "Population per square mile, 2010"))
 ```
 
 ```{r}
@@ -48,7 +48,8 @@ population_data_2 <- population_data_1 |>
 ```{r}
 #| label: adjusting-city-names-population
 #making the city column have the same format for city names as the waste data set so that joining the data sets will be possible.
-
+population_data_3 <- population_data_2 |>
+  str_sub(city, start = 1, end = -18)
 ```
 
 
