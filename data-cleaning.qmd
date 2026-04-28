@@ -19,23 +19,39 @@ library(readxl)
 
 waste_summary <- read_xlsx("data-raw/CountywideSummary.xlsx")
 
-population_data_1 <- read_csv("data-raw/QuickFacts Mar-22-2026.csv")
+population_data_a <- read_csv("data-raw/QuickFacts Mar-22-2026.csv")
 
-population_data_2 <- read_csv("data-raw/QuickFacts Mar-22-2026 (1).csv")
+population_data_b <- read_csv("data-raw/QuickFacts Mar-22-2026 (1).csv")
 
 ```
 ```{r}
 #| label: creating-population-data-set
 #creating a single population data set with all cites and only rows that may be later used for this project
 
-population_data <- population_data_1 |>
+population_data_1 <- population_data_a |>
   drop_na("Fact") |>
-  left_join(population_data_2, "Fact") |>
+  left_join(population_data_b, "Fact") |>
   select(-contains("Note")) |>
   filter(Fact %in% c("Population, Census, April 1, 2010", "Population, Census, April 1, 2020"))
-  #pivot_longer(cols = contains("city"), names_to = "city", values_to = "value",)
-#add filtering to filter for census rows
 ```
+
+```{r}
+#| label: pivoting-population
+#pivoting the data so that there is a city column that will match with the city column in the waste data set 
+
+population_data_2 <- population_data_1 |> 
+  pivot_longer(cols = -Fact, names_to = "city", values_to = "value") |>
+  pivot_wider(names_from = Fact, values_from = value) |>
+  janitor::clean_names()
+```
+
+```{r}
+#| label: adjusting-city-names-population
+#making the city column have the same format for city names as the waste data set so that joining the data sets will be possible.
+
+```
+
+
 
 ```{r}
 #| label: solving-nas-names-waste
@@ -56,7 +72,7 @@ waste_summary_1 <- waste_summary |>
 #| label: waste-column-2
 #pulling the information on quarter out of column 2 and into a separate column
 
-waste_summary_2 <- waste_summary_1
+waste_summary_2 <- waste_summary_1 
 ```
 
 ```{r}
