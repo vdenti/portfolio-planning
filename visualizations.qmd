@@ -29,10 +29,11 @@ How has waste generation changed from 1995 in Monterey County?
 
 waste_summary_q3 |>
   drop_na(report_quarter) |>
+  filter(!report_quarter %in% c(1, 2, 3, 4)) |>
 ggplot() +
-  geom_line(aes(x = report_year, y = disposal_ton, color = report_quarter))
+  geom_line(aes(x = report_year, y = disposal_ton, color = report_quarter)) +
+  labs(title = "Waste Generation in Monterey County by City (1995-2019)",
+       color = "City",
+       x = "Year",
+       y = "Disposal Amount (tons)")
 ```
-
-
-
-
