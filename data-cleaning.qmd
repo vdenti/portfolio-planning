@@ -54,7 +54,9 @@ waste_summary_1 <- waste_summary |>
 
 ```{r}
 #| label: waste-column-2
-#pulling elements out of column 2 to make it into a more usable format
+#pulling the information on quarter out of column 2 and into a separate column
+
+waste_summary_2 <- waste_summary_1
 ```
 
 ```{r}
