@@ -132,7 +132,9 @@ waste_population_2010_city_over_5000_2 <- waste_population_2010_city_over_5000_1
 ## Writing Clean Data
 
 ```{r}
-#|
+#| label: writing-data-1-2
+#writing the data that will be used for questions 1 and 2
+write_csv(waste_population_2010_city_over_5000_2, "data-clean/waste-population-q1-q2")
 ```
 
 ```{r}
@@ -140,6 +142,3 @@ waste_population_2010_city_over_5000_2 <- waste_population_2010_city_over_5000_1
 #writing the data that will be used to answer question 3, in the long data format to allow for the use of grouping.
 write_csv(waste_summary_4, "data-clean/waste-summary-q3")
 ```
-
-
-
