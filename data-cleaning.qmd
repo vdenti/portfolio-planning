@@ -27,7 +27,7 @@ population_data_b <- read_csv("data-raw/QuickFacts Mar-22-2026 (1).csv")
 ## Cleaning Population Data
 
 ```{r}
-#| label: creating-population-data-set
+#| label: creating-data-set-population
 #creating a single population data set with all cites and only rows that may be later used for this project
 
 population_data_1 <- population_data_a |>
@@ -50,13 +50,20 @@ population_data_2 <- population_data_1 |>
 ```
 
 ```{r}
-#| label: adjusting-city-names-numeric-population
-#making the city column have the same format for city names as the waste data set so that joining the data sets will be possible. This means removing the " city, California" also making the columns read as numeric to be able to do calculations with them later.
+#| label: adjusting-city-names-population
+#making the city column have the same format for city names as the waste data set so that joining the data sets will be possible. This means removing the " city, California" 
 population_data_3 <- population_data_2 |>
   mutate(city = str_sub(city_ca, end = -18)) |>
-  select(-city_ca) |>
-  mutate(population_census_april_1_2010 as_numeric())
+  select(-city_ca)
 ```
+
+```{r}
+#| label: making-cols-numeric-population
+#also making the columns read as numbers to be able to do calculations with them later.
+population_data_4 <- population_data_3 |>
+  mutate(population_census_april_1_2010 = parse_number(population_census_april_1_2010), population_per_square_mile_2010 = parse_number(population_per_square_mile_2010))
+```
+
 
 ## Cleaning Waste Data
 
@@ -67,7 +74,9 @@ population_data_3 <- population_data_2 |>
 waste_summary_1 <- waste_summary |>
   select(1:3) |>
   fill(1) |>
-  janitor::clean_names()
+  janitor::clean_names() |>
+  rename(disposal_ton = diposal_ton)
+#assuming spelling mistake in diposal and changing to disposal
 ```
 
 
@@ -108,7 +117,7 @@ All quarters are displayed as being at the start of that fourth of the year.
 #combining the two data sets for q1 and q2 with eventual goal of creating per population variable
 
 waste_population_2010_city_over_5000_1 <- waste_summary_4 |>
-  left_join(population_data_3, by = join_by(city)) |>
+  left_join(population_data_4, by = join_by(city)) |>
   drop_na(population_census_april_1_2010) 
 ```
 
@@ -117,14 +126,15 @@ waste_population_2010_city_over_5000_1 <- waste_summary_4 |>
 #creating a variable that involves waste per population for q1 and q2
 
 waste_population_2010_city_over_5000_2 <- waste_population_2010_city_over_5000_1 |>
-  mutate(disposal_per_population = (disposal_ton / population_census_april_1_2010))
-
+  mutate(disposal_per_population_ton = (disposal_ton / population_census_april_1_2010))
 ```
 
-
-
-
 ## Writing Clean Data
+
+```{r}
+#|
+```
+
 ```{r}
 #| label: writing-data-3
 #writing the data that will be used to answer question 3, in the long data format to allow for the use of grouping.
