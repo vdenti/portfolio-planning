@@ -16,6 +16,7 @@ library(tidyverse)
 #| label: reading-data
 #| echo: false
 #reading in all of the cleaned data
+waste_population_q1_q2 <-read_csv("data-clean/waste-population-q1-q2")
 waste_summary_q3 <- read_csv("data-clean/waste-summary-q3")
 ```
 
@@ -28,12 +29,14 @@ How has waste generation changed from 1995 in Monterey County?
 #making a visualization to answer research question 3
 
 waste_summary_q3 |>
-  drop_na(report_quarter) |>
-  filter(!report_quarter %in% c(1, 2, 3, 4)) |>
-ggplot() +
-  geom_line(aes(x = report_year, y = disposal_ton, color = report_quarter)) +
+ggplot(aes(x = time,
+                y = disposal_ton, 
+                color = city)) +
+  geom_line() +
   labs(title = "Waste Generation in Monterey County by City (1995-2019)",
        color = "City",
        x = "Year",
-       y = "Disposal Amount (tons)")
+       y = "Disposal Amount (tons)",
+       alt = "The graph displays waste generation in Monterey County by city from 1995 to 2019. The line graph has year on the x axis and disposal amount in tons on the y axis, the lines are grouped by city. The lines are variable, often spiking in unision yearly. The overall trend shows a dip from around 2010 to 2015.")
 ```
+The graph shows that waste generation has varied overtime with a high level of variability each year. It is hard to tell overall long term trends from this graph. There seems to be a dip from 2010 to 2015 however this could be due to the end of data on a number of cities and the start of data from the Salinas Valley Solid Waste Authority.
