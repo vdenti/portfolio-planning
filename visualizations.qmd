@@ -19,6 +19,43 @@ library(tidyverse)
 waste_population_q1_q2 <-read_csv("data-clean/waste-population-q1-q2")
 waste_summary_q3 <- read_csv("data-clean/waste-summary-q3")
 ```
+## Research Question 1
+
+```{r}
+#| label: visualization-q1-1
+waste_population_q1_q2 |>
+  ggplot(aes(x = time, 
+             y = disposal_per_population_ton)) +
+  geom_point(aes(size = population_census_april_1_2010, 
+                 color = city))
+```
+
+```{r}
+#| label: visualization-q1-2
+waste_population_q1_q2 |>
+  ggplot(aes(x = population_census_april_1_2010,
+             y = disposal_per_population_ton,
+             group = city, 
+             color = city)) +
+  geom_boxplot()
+```
+```{r}
+#| label: visualization-q2-1
+waste_population_q1_q2 |>
+  ggplot(aes(x = time, 
+             y = disposal_per_population_ton)) +
+  geom_point(aes(color = population_per_square_mile_2010))
+```
+
+```{r}
+#| label: visualization-q2-2
+waste_population_q1_q2 |>
+  ggplot(aes(x = population_per_square_mile_2010,
+             y = disposal_per_population_ton)) +
+  geom_boxplot(aes(group = city, 
+             color = city)) +
+  geom_smooth()
+```
 
 ## Research Question 3
 
