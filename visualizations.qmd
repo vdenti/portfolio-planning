@@ -31,7 +31,7 @@ How has waste generation changed from 1995 in Monterey County?
 waste_summary_q3 |>
 ggplot(aes(x = time,
                 y = disposal_ton, 
-                color = fct_reorder(city, desc(disposal_ton)))) +
+                color = fct_reorder2(city, time, disposal_ton))) +
   geom_line() +
   labs(title = "Waste Generation in Monterey County by City (1995-2019)",
        color = "City",
@@ -61,24 +61,44 @@ In 2013 data for Gonzales, Greenfeild, King City, Salinas, and Soledad is no lon
 
 ## Research Question 1
 
+Question 1: How does population size of a city, for cities over 5000 people, affect waste generation per person in Monterey county?
+
 ```{r}
 #| label: visualization-q1-1
 waste_population_q1_q2 |>
   ggplot(aes(x = time, 
              y = disposal_per_population_ton)) +
   geom_point(aes(size = population_census_april_1_2010, 
-                 color = city))
+                 color = fct_reorder2(city, time, disposal_per_population_ton))) +
+  scale_color_viridis_d() +
+  labs(color = "City",
+       size = "City Population (2010)",
+       title = " Waste Generation per Person in Monterey County (1995-2019)",
+       caption = "Waste Generation per Person based on the 2010 census, for cities over 5000 people in Monterey 
+       County by city and population size
+       Data from US Census Bureau and CalRecycle",
+       y = "Disposal Amount per Person per Quarter (Tons)",
+       x = "Year",
+       alt = "A graph displaying waste generation per person based on the 2010 census for cities over 5000 people in Monterey County, from 1995 to 2019. Waste disposal is measured in amount per person per quarter in tons. The graph shows Monterey, with a medium population size, gennerally has the highest disposal amount per person. Soledad and Greenfeild with similar polulation sizes generally had the lowest disposal amount per person. The largest city, Salinas has a medium waste generation amount per person. All cities experiance a dip in waste generation from roughly 2010 to 2015. Data for Gonzales, Greenfeild, King City, Salinas, and Soledad stops in 2013. Data from US Census Bureau and CalRecycle."
+       )
 ```
+The graph shows Salinas to be considerably larger in population than other cities. The graph shows a dip in waste generation per person between 2010 and 2015.
 
 ```{r}
 #| label: visualization-q1-2
 waste_population_q1_q2 |>
   ggplot(aes(x = population_census_april_1_2010,
-             y = disposal_per_population_ton,
-             group = city, 
-             color = city)) +
-  geom_boxplot()
+             y = disposal_per_population_ton)) +
+  geom_boxplot(aes(group = city, color = fct_reorder(city, desc(disposal_per_population_ton)))) +
+  geom_smooth(method = lm, color = "black") +
+  labs(color = "City")
 ```
+The box plot shows a slight increase in  waste generation per person as population size increases.
+
+## Research Question 2
+
+How does population size per square mile affect waste generation per person for cities over 5000 people in Monterey County?
+
 ```{r}
 #| label: visualization-q2-1
 #chose to make population density into a color variable instead of a size variable because the size was causing too much overlapping. Chose not to break up by city because it was too hard to tell the different shapes.
