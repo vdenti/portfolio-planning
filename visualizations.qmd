@@ -41,10 +41,19 @@ waste_population_q1_q2 |>
 ```
 ```{r}
 #| label: visualization-q2-1
+#chose to make population density into a color variable instead of a size variable because the size was causing too much overlapping. Chose not to break up by city because it was too hard to tell the different shapes.
 waste_population_q1_q2 |>
   ggplot(aes(x = time, 
              y = disposal_per_population_ton)) +
-  geom_point(aes(color = population_per_square_mile_2010))
+  geom_point(aes(color = population_per_square_mile_2010)) +
+  theme_light() +
+  scale_color_viridis_c() +
+  labs(title = "Waste per Person Based on Population Density Over Time in Monterey County",
+       x = "Year",
+       y = "Waste Disposal per Person (Tons)",
+       color = "Population Density 
+per Square Mile (2010)",
+      )
 ```
 
 ```{r}
@@ -54,7 +63,13 @@ waste_population_q1_q2 |>
              y = disposal_per_population_ton)) +
   geom_boxplot(aes(group = city, 
              color = city)) +
-  geom_smooth()
+  geom_smooth(color = "pink3") +
+  labs(title = "Population Density Versus Waste per Person by City",
+       x = "Population Density per Square Mile (2010)",
+       y = "Waste Disposal per Person (Tons)",
+       color = "City") +
+  theme_light() +
+  scale_color_viridis_d()
 ```
 
 ## Research Question 3
