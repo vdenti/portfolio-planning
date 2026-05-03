@@ -19,6 +19,46 @@ library(tidyverse)
 waste_population_q1_q2 <-read_csv("data-clean/waste-population-q1-q2")
 waste_summary_q3 <- read_csv("data-clean/waste-summary-q3")
 ```
+
+## Research Question 3
+
+How has waste generation changed from 1995 in Monterey County?
+
+```{r}
+#| label: visualization-q3
+#making a visualization to answer research question 3
+
+waste_summary_q3 |>
+ggplot(aes(x = time,
+                y = disposal_ton, 
+                color = fct_reorder(city, desc(disposal_ton)))) +
+  geom_line() +
+  labs(title = "Waste Generation in Monterey County by City (1995-2019)",
+       color = "City",
+       x = "Year",
+       y = "Disposal Amount per Quarter (Tons)",
+       alt = "The graph displays waste generation in Monterey County by city from 1995 to 2019. The line graph has year on the x axis and disposal amount in tons on the y axis, the lines are grouped by city. The lines are variable, often spiking in unision yearly. The overall trend shows a dip from around 2010 to 2015. Data from CalRecycle.",
+       caption = "Waste Disposal amounts in Monterey County each quarter from 1995 to 2019.
+Data from CalRecycle") +
+  scale_color_viridis_d()
+```
+
+The graph shows that waste generation has varied overtime with a high level of variability each year. There seems to be a dip from 2010 to 2015, however this could be due to the end of data on a number of cities.
+```{r}
+#| label: start-salinas-valley-solid-waste-authority
+#figuring out exactly when Salinas Valley Solid Waste Authority reporting starts and cities end. For interpreting q3 graph and future graphs.
+waste_summary_q3 |>
+  filter(city == "Salinas Valley Solid Waste Authority") |>
+  arrange(city)
+
+waste_summary_q3 |>
+filter(time == 2012.75)
+
+waste_summary_q3 |>
+filter(time == 2013)
+```
+In 2013 data for Gonzales, Greenfeild, King City, Salinas, and Soledad is no longer reported and data for the Salinas Valley Solid Waste Authority begins.
+
 ## Research Question 1
 
 ```{r}
@@ -72,19 +112,7 @@ waste_population_q1_q2 |>
   scale_color_viridis_d()
 ```
 Because data for some cities stops and is grouped into The Salinas Valley Solid Waste Athority this could affect the graph.
-```{r}
-#| label: start-salinas-valley-solid-waste-authority
-waste_summary_q3 |>
-  filter(city == "Salinas Valley Solid Waste Authority") |>
-  arrange(city)
 
-waste_summary_q3 |>
-filter(time == 2012.75)
-
-waste_summary_q3 |>
-filter(time == 2013)
-```
-Salinas Valley Solid Waste Athority data begins in 2013 and marks the end of data on Gonzales, Greenfeild, King City, Salinas, and Soledad.
 ```{r}
 #| label: visualization-q2-3
 #visualization to remove data after 2010 because that is when the Salinas Valley Solid Waste Authority data begins.
@@ -102,26 +130,3 @@ waste_population_q1_q2 |>
   theme_light() +
   scale_color_viridis_d()
 ```
-
-## Research Question 3
-
-How has waste generation changed from 1995 in Monterey County?
-
-```{r}
-#| label: visualization-q3
-#making a visualization to answer research question 3
-
-waste_summary_q3 |>
-ggplot(aes(x = time,
-                y = disposal_ton, 
-                color = city)) +
-  geom_line() +
-  labs(title = "Waste Generation in Monterey County by City (1995-2019)",
-       color = "City",
-       x = "Year",
-       y = "Disposal Amount (tons)",
-       alt = "The graph displays waste generation in Monterey County by city from 1995 to 2019. The line graph has year on the x axis and disposal amount in tons on the y axis, the lines are grouped by city. The lines are variable, often spiking in unision yearly. The overall trend shows a dip from around 2010 to 2015.") +
-  scale_color_viridis_d()
-```
-The graph shows that waste generation has varied overtime with a high level of variability each year. It is hard to tell overall long term trends from this graph. There seems to be a dip from 2010 to 2015 however this could be due to the end of data on a number of cities, including Gonzolas, Greenfeild, Soledad, and Salinas and the start of data from the Salinas Valley Solid Waste Authority.
-
