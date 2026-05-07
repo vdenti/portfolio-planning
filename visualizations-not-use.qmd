@@ -1,0 +1,55 @@
+---
+title: "visualizations-not-use"
+format: html
+---
+
+
+## Graphs planning not to use
+
+```{r}
+#| label: visualization-q1-not-use
+waste_population_q1_q2 |>
+  ggplot(aes(x = time, 
+             y = disposal_per_population_ton)) +
+  geom_point(aes(size = population_census_april_1_2010, 
+                 color = fct_reorder2(city, time, disposal_per_population_ton))) +
+  scale_color_viridis_d() +
+  labs(color = "City",
+       size = "City Population (2010)",
+       title = " Waste Generation per Person in Monterey County (1995-2019)",
+       caption = "Waste Generation per Person based on the 2010 census, for cities over 5000 people in Monterey 
+       County by city and population size.
+       Data from US Census Bureau and CalRecycle",
+       y = "Disposal Amount per Person per Quarter (Tons)",
+       x = "Year",
+       alt = "A graph displaying waste generation per person based on the 2010 census for cities over 5000 people in Monterey County, from 1995 to 2019. Waste disposal is measured in amount per person per quarter in tons. The graph shows Monterey, with a medium population size, gennerally has the highest disposal amount per person. Soledad and Greenfeild with similar polulation sizes generally had the lowest disposal amount per person. The largest city, Salinas has a medium waste generation amount per person. All cities experiance a dip in waste generation from roughly 2010 to 2015. Data for Gonzales, Greenfeild, King City, Salinas, and Soledad stops in 2013. Data from US Census Bureau and CalRecycle."
+       )
+```
+The graph shows Salinas to be considerably larger in population than other cities. The graph shows a dip in waste generation per person between 2010 and 2015.
+
+
+```{r}
+#| label: visualization-q2-not-use
+#chose to make population density into a color variable instead of a size variable because the size was causing too much overlapping. Chose not to break up by city because it was too hard to tell the different shapes.
+
+waste_population_q1_q2 |>
+  ggplot(aes(x = time, 
+             y = disposal_per_population_ton)) +
+  geom_point(aes(color = population_per_square_mile_2010)) +
+  geom_line(aes(group = city, 
+                color = population_per_square_mile_2010)) +
+  theme_light() +
+  scale_color_viridis_c() +
+  labs(title = "Waste per Person Based on Population Density in Monterey County",
+       x = "Year",
+       y = "Waste Disposal per Person per Quarter (Tons)",
+       color = "Population Density
+of City per 
+Square Mile (2010)",
+       caption = "Waste generation per person based on population of the city for cities over 5000 people 
+       in Montery County (1995-2019).
+Data from US Census Bureau and CalRecycle",
+       alt = "A graph of waste generation per person based on population of the city over time in Montery County from 1995 to 2019. The graph shows that the city with the lowest population density also has some of the lowest waste disposal per person. Waste disposal is measured per person per quarter in tons. Population density is measured by city per square mile as of 2010, for cites over 5000 people. The overall trend over time is higher at the begining and end of the data and slightly higher just after 2005 with a dip between 2010 and 2015. The greatest population density has a fairly middle waste generation per person amount. Data from US Census Bureau and CalRecycle."
+       )
+```
+The graph does not show a clear relationship between Population Density and Waste Disposal per Person however some of the areas with lower population density also have the lowest waste generation. The highest waste generation amounts all have a moderately high population density.
