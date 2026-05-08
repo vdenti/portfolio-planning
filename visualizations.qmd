@@ -1,21 +1,26 @@
 ---
 title: "Visualizations"
-format: html
+format: 
+  html:
+    theme:
+      light: cosmos
+      dark: darkly
 echo: false
+respect-user-color-scheme: true
 ---
 
 ## Setup
 
 ```{r}
 #| label: setup
-#| echo: false
+#| include: false
 #loading all required packages
 library(tidyverse)
 ```
 
 ```{r}
 #| label: reading-data
-#| echo: false
+#| include: false
 #reading in all of the cleaned data
 waste_population_q1_q2 <-read_csv("data-clean/waste-population-q1-q2")
 waste_summary_q3 <- read_csv("data-clean/waste-summary-q3")
@@ -27,9 +32,11 @@ How has waste generation changed from 1995 in Monterey County?
 
 ```{r}
 #| label: visualization-q3
+#| echo: false
 #making a visualization to answer research question 3
+#storing plot as an object to allow for different looking graphs for different color schemes
 
-waste_summary_q3 |>
+visualization_q3 <- waste_summary_q3 |>
 ggplot(aes(x = time,
                 y = disposal_ton, 
                 color = fct_reorder2(city, time, disposal_ton))
@@ -45,9 +52,35 @@ Data from CalRecycle",
        )
 ```
 
+::: {.light-content}
+```{r}
+#| label: visualization-q3-light
+#| echo: false
+
+#this will display in light mode
+#https://quarto.org/docs/output-formats/html-themes.html for info on light and dark modes
+
+visualization_q3 +
+  scale_color_viridis_d() +
+  theme_bw()
+
+```
+:::
+
+::: {.dark-content}
+```{r}
+#| label: visualization-q3-dark
+#| echo: false
+#this will display in dark mode
+```
+
+:::
+
 The graph shows that waste generation has varied overtime with a high level of variability each year. There seems to be a dip from 2010 to 2015, however this could be due to the end of data on a number of cities.
 ```{r}
 #| label: start-salinas-valley-solid-waste-authority
+#| eval: false
+#| include: false
 #figuring out exactly when Salinas Valley Solid Waste Authority reporting starts and cities end. For interpreting q3 graph and future graphs.
 waste_summary_q3 |>
   filter(city == "Salinas Valley Solid Waste Authority") |>
@@ -69,6 +102,7 @@ Question 1: How does population size of a city, for cities over 5000 people, aff
 
 ```{r}
 #| label: visualization-q1
+#| echo: false
 #chose to filter out data after 2013 because some cities stop reporting in 2013
 waste_population_q1_q2 |>
   filter(time < 2013) |>
@@ -100,6 +134,7 @@ How does population size per square mile affect waste generation per person for 
 
 ```{r}
 #| label: visualization-q2
+#| echo: false
 #choosing not to include data from after 2013 because Salinas Valley Solid Waste Authority data begins
 
 waste_population_q1_q2 |>
@@ -108,7 +143,8 @@ waste_population_q1_q2 |>
              y = disposal_per_population_ton)
          ) +
   geom_point(aes(color = fct_reorder(city, population_per_square_mile_2010)),
-             position = position_jitter(height = 0, width = 30)
+             position = position_jitter(height = 0, width = 30),
+             show.legend = FALSE
              ) +
   geom_smooth(color = "pink3",
               method = lm
@@ -116,21 +152,26 @@ waste_population_q1_q2 |>
   labs(title = "Population Density Versus Waste per Person by City (1995-2013)",
        x = "Population Density per Square Mile (2010)",
        y = "Waste Disposal per Person per Quarter (Tons)",
-       color = "City",
        caption = "City population density versus waste generation per person for cites over 5000 people in Montery County 
 from 1995 up to 2013.
        Data from US Census Bureau and CalRecycle",
        alt = "A graph displaying population density per square mile in 2010 versus waste disposal per person per quarter in tons by city for cities over 5000 people in Monterey County from 1995 to 2013. The graph shows a negative corrolation between waste generation and population density. Data from US Census Bureau and CalRecycle"
       ) +
-  annotate("text", x = 2219, y = 0.1, label = "Marina") +
-  annotate("text", x = 3285, y = 0.1, label = "Monterey") +
-  annotate("text", x = 3348, y = 0.1, label = "King City") +
-  annotate()
+  annotate("text", x = 2219, y = 0.11, label = "Marina") +
+  annotate("text", x = 3285, y = 0.5, label = "Monterey") +
+  annotate("text", x = 3348, y = 0.08, label = "King City") +
+  annotate("text", x = 3575, y = 0.4, label = "Seaside") +
+  annotate("text", x = 4260, y = 0.03, label = "Gonzales") +
+  annotate("text", x = 5250, y = 0.35, label = "Pacific Grove") +
+  annotate("text", x = 5831, y = 0.01, label = "Soledad") +
+  annotate("text", x = 6490, y = 0.35, label = "Salinas") +
+  annotate("text", x = 7648, y = 0.01, label = "Greenfeild")
 ```
 The graph shows that as population density increases waste disposal per person tends to decrease.
 
 ```{r}
 #| label: box-plot-for-q2
+#| echo: false
 # classifying by urban and rural
 
 waste_population_q1_q2 |>
