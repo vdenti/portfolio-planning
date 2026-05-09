@@ -168,7 +168,7 @@ visualization_q2 <- waste_population_q1_q2 |>
              position = position_jitter(height = 0, width = 30),
              show.legend = FALSE
              ) +
-  geom_smooth(color = "pink3",
+  geom_smooth(color = "red",
               method = lm
               ) +
   labs(title = "Population Density Versus Waste per Person by City (1995-2013)",
@@ -208,7 +208,7 @@ visualization_q2 +
 
 visualization_q2 +
   scale_colour_viridis_d() +
-  theme_dark(paper = "black", ink = "white")
+  theme_grey(paper = "black", ink = "white")
 ```
 :::
 
@@ -222,7 +222,11 @@ boxplot_q2 <- waste_population_q1_q2 |>
   mutate(rural_urban = case_when(population_per_square_mile_2010 <= 4000 ~ "more rural",
                                  population_per_square_mile_2010 >= 4000 ~ "more urban")) |>
   ggplot() +
-  geom_boxplot(aes(y = disposal_per_population_ton, color = rural_urban)) +
+  geom_boxplot(aes(y = disposal_per_population_ton,
+                   color = rural_urban
+                   ),
+               show.legend = FALSE, 
+               ) +
   labs(title = "City Type Versus Waste Generation per Person (1995-2013)",
        y = "Waste Disposal per Person per Quarter (Tons)",
        color = "City Type",
@@ -231,7 +235,9 @@ boxplot_q2 <- waste_population_q1_q2 |>
        Data from US Census Bureau and CalRecycle",
        alt = "The boxplot displays waste generation per person per quarter in tons for more urban versus more rural cities based on population density per square mile as of 2010 for cites over 5000 people in Montery County. Data from 1995 up to 2013. More rural cities have a higher mean waste generation per person and have several outliers. Data from US Census Bureau and CalRecycle."
        ) +
-  scale_x_discrete(labels = NULL, continuous.limits = c(-0.001, 0.001))
+  scale_x_discrete(labels = NULL, continuous.limits = c(-0.001, 0.001)) +
+  annotate("text", x = -0.2, y = -0.02, label = "more rural") +
+  annotate("text", x = 0.2, y = -0.02, label = "more urban")
 ```
 
 
@@ -240,7 +246,8 @@ boxplot_q2 <- waste_population_q1_q2 |>
 #| label: boxplot-q2-light
 # displaying in light mode
 boxplot_q2 +
-  theme_bw()
+  theme_bw() +
+  scale_color_manual(values = c("green3", "purple"))
 ```
 :::
 
@@ -250,7 +257,8 @@ boxplot_q2 +
 #this will display in dark mode
 
 boxplot_q2 +
-  theme_dark(paper = "black", ink = "white")
+  theme_dark(paper = "black", ink = "white") +
+  scale_color_manual(values = c("blue", "red"))
 ```
 
 :::
